@@ -1,0 +1,9 @@
+{"name": "Configuration name",
+  "configuration": [
+    {"time": {"after": Ndays},
+      "humidity": {"min": minHumidity,
+                          "max": maxHumidity},
+                        },
+                        ...
+    ]
+}
