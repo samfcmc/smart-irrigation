@@ -1,24 +1,38 @@
 #include <Arduino.h>
+#include <Thread.h>
+#include <ThreadController.h>
 
-// Pin 13 has an LED connected on most Arduino boards.
-// give it a name:
-int led = 7;
+class BlinkLedThread: public Thread {
+	
+public:
+	int _pin;
+	bool _state;
 
-// the setup routine runs once when you press reset:
+	BlinkLedThread(int pin, int interval): Thread() {
+		pinMode(_pin, OUTPUT);
+		setInterval(interval);
+		_pin = pin;
+		_state = false;
+	}
+
+	void run() {
+		_state = !_state;
+		digitalWrite(_pin, _state);
+		runned();	
+	}
+};
+
+int LED_PIN = 13;
+int TIMER_INTERVAL = 1000;
+
+Thread *blinkLedThread = new BlinkLedThread(LED_PIN, TIMER_INTERVAL);
+ThreadController *threadController = new ThreadController();
+
 void setup() {                
-  // initialize the digital pin as an output.
-  pinMode(led, OUTPUT);
-  pinMode(13, OUTPUT);
+	Serial.begin(9600);
+	threadController->add(blinkLedThread);
 }
 
-int delayamount = 1000;
-
-// the loop routine runs over and over again forever:
 void loop() {
-  digitalWrite(led, HIGH);
-  digitalWrite(13, LOW);
-  delay(delayamount);
-  digitalWrite(led, LOW);
-  digitalWrite(13, HIGH);
-  delay(delayamount);
+  	threadController->run();
 }
