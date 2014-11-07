@@ -15,5 +15,10 @@ void setup() {
 }
 
 void loop() {
+	if (Serial.available()) {
+	  char num = Serial.read() - '0';
+	  if (num != 0)
+	    blinkLedThread.setInterval(num*100);
+	}
   	threadController.run();
 }
