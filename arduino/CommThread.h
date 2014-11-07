@@ -4,6 +4,8 @@
 
 typedef enum { 
     STATE_IDLE,
+    STATE_RX,
+    STATE_WX,
 } State;
 
 class CommThread: public Thread {
@@ -17,7 +19,10 @@ private:
 public:
 	CommThread();
 	
-	bool messageAvailable
+	bool messageAvailable();
+	bool isFree();
+	void getMessage(void *buffer, int num);
+	void sendMessage(void *buffer, int num);
 
 	void run();
 };
