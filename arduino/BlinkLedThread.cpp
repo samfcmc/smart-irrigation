@@ -2,10 +2,10 @@
 #include "BlinkLedThread.h"
 
 BlinkLedThread::BlinkLedThread(int pin, int interval): Thread() {
-	pinMode(_pin, OUTPUT);
-	setInterval(interval);
 	_pin = pin;
 	_state = false;
+	setInterval(interval);
+	pinMode(_pin, OUTPUT);
 }
 
 void BlinkLedThread::run() {

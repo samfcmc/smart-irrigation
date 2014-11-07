@@ -6,14 +6,14 @@
 int LED_PIN = 13;
 int TIMER_INTERVAL = 1000;
 
-Thread *blinkLedThread = new BlinkLedThread(LED_PIN, TIMER_INTERVAL);
-ThreadController *threadController = new ThreadController();
+BlinkLedThread blinkLedThread(LED_PIN, TIMER_INTERVAL);
+ThreadController threadController;
 
 void setup() {                
 	Serial.begin(9600);
-	threadController->add(blinkLedThread);
+	threadController.add(&blinkLedThread);
 }
 
 void loop() {
-  	threadController->run();
+  	threadController.run();
 }
