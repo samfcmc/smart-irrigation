@@ -2,27 +2,30 @@
 
 #define BUFF_SIZE	16
 
-typedef enum { 
+enum State { 
     STATE_IDLE,
     STATE_RX,
     STATE_WX,
-} State;
+};
 
 class CommThread: public Thread {
 
 private:
-	State _state;
+	State state;
 
-	char _inBuffer[BUFF_SIZE];
-	char _outBuff [BUFF_SIZE];
+	char inBuffer[BUFF_SIZE];
+	char outBuff [BUFF_SIZE];
+	int currentIndex;
+	bool messageAvailable;
+	long startedRXTimestamp;
 
 public:
 	CommThread();
 	
-	bool messageAvailable();
+	bool hasMessageAvailable();
 	bool isFree();
-	void getMessage(void *buffer, int num);
-	void sendMessage(void *buffer, int num);
+	void getMessage(char *buffer, int size);
+	void sendMessage(char *buffer, int size);
 
 	void run();
 };
