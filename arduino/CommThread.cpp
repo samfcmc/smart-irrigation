@@ -7,7 +7,7 @@ CommThread::CommThread(): Thread() {
   this->state = STATE_IDLE;
   this->currentIndex = 0;
   this->messageAvailable = false;
-  this->startedRXTimestamp = 0;
+  this->lastReceivedTimestamp = 0;
 }
 
 void CommThread::run()
@@ -18,32 +18,46 @@ void CommThread::run()
 		//Received a message
 		this->state = STATE_RX;
 		this->messageAvailable = false;
-		this->startedRXTimestamp = millis();
+		this->lastReceivedTimestamp = millis();
 		this->currentIndex = 0;
 	}
 	else if(this->state == STATE_RX) {
 		//Receiving a message
 		if(Serial.available()) {
+			char received = Serial.read();
 			if(this->currentIndex < BUFF_SIZE) {
 				//Didn't reach buffer limit
-				this->inBuffer[this->currentIndex] = Serial.read();
+				this->inBuffer[this->currentIndex] = received;
 				this->currentIndex++;	
 			}
-			else {
-				//Reached buffer limit
-				//Just ignore remaining bytes
-				Serial.read();
-			}
+			this->lastReceivedTimestamp = millis();
 		}
 		else {
-			sinceStartedRX = millis() - this->startedRXTimestamp;
+			sinceStartedRX = millis() - this->lastReceivedTimestamp;
 			if(sinceStartedRX > TIMEOUT) {
 				//Stop receiving a message
 				this->state = STATE_IDLE;
 				this->messageAvailable = true;
-				this->inBuffer[this->currentIndex] = '\0';
+				this->inBuffer[this->currentIndex - 1] = '\0';
 			}
 		}
+	}
+	else if(this->state == STATE_WX) {
+		char toSend;
+		if(this->currentIndex < BUFF_SIZE) {
+			toSend = this->outBuffer[this->currentIndex];
+			if(toSend == '\0') {
+				Serial.println("");		
+			}
+			else {
+				Serial.print(toSend);
+			}
+			this->currentIndex++;
+		}
+		else {
+			this->state = STATE_IDLE;
+			this->currentIndex = 0;
+		}		
 	}
 }
 
@@ -64,8 +78,11 @@ void CommThread::getMessage(char *buffer, int size)
   this->messageAvailable = false;
 }
 
-void CommThread::sendMessage(char *buffer, int size)
+void CommThread::sendMessage(char *buffer)
 {
-  /* TODO */
+  strncpy(this->outBuffer, buffer, BUFF_SIZE);
+  this->outBuffer[BUFF_SIZE - 1] = '\0';
+  this->state = STATE_WX;
+  this->currentIndex = 0;
 }
 

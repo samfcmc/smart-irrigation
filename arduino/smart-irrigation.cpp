@@ -23,8 +23,8 @@ void setup() {
 void loop() {
 	if(commThread.hasMessageAvailable()) {
 		commThread.getMessage(buffer, BUFF_SIZE);
-		buffer[BUFF_SIZE - 1] = '\0';
-		Serial.println(buffer);
+		//buffer[BUFF_SIZE - 1] = '\0';
+		commThread.sendMessage(buffer);
 	}
   	threadController.run();
 }

@@ -14,10 +14,10 @@ private:
 	State state;
 
 	char inBuffer[BUFF_SIZE];
-	char outBuff [BUFF_SIZE];
+	char outBuffer[BUFF_SIZE];
 	int currentIndex;
 	bool messageAvailable;
-	long startedRXTimestamp;
+	long lastReceivedTimestamp;
 
 public:
 	CommThread();
@@ -25,7 +25,7 @@ public:
 	bool hasMessageAvailable();
 	bool isFree();
 	void getMessage(char *buffer, int size);
-	void sendMessage(char *buffer, int size);
+	void sendMessage(char *buffer);
 
 	void run();
 };
