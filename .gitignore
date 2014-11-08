@@ -2,3 +2,11 @@ Makefile
 arduino/build-uno
 arduino/build-cli
 *~
+
+*.log
+*.pot
+*.pyc
+local_settings.py
+db.sqlite3
+server/*/components/
+server/*/env/
