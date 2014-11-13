@@ -12,8 +12,12 @@ CommThread commThread;
 ThreadController threadController;
 char buffer[BUFF_SIZE];
 
-void setup() {                
+void setup() {
+	//Tell connected client that Arduino is ready
 	Serial.begin(9600);
+	Serial.write('a');
+  
+  
 	pinMode(LED_PIN, OUTPUT);
 	// Add threads to thread controller
 	//threadController.add(&blinkLedThread);

@@ -9,8 +9,6 @@ CommThread::CommThread(): Thread() {
   this->messageAvailable = false;
   this->lastReceivedTimestamp = 0;
 
-  //Tell connected client that Arduino is ready
-  Serial.write('a');
 }
 
 void CommThread::run()
