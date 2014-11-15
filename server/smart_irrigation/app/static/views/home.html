@@ -10,6 +10,17 @@
 	  	Current status of your plant
 	  </div>
 	  <table class="table">
+	  	<tr>
+  			<td>
+  				<span 
+    			class="glyphicon glyphicon-leaf">
+    			</span>
+    			Name
+  			</td>
+  			<td>
+  				{{status.name}}
+  			</td>
+  		</tr>
   		<tr>
   			<td>
   				<span 
@@ -18,7 +29,7 @@
     			Temperature
   			</td>
   			<td>
-  				X ºC
+  				{{status.temperature}} ºC
   			</td>
   		</tr>
   		<tr>
@@ -29,7 +40,7 @@
     			Humidity
   			</td>
   			<td>
-  				X %
+  				{{status.humidity}} %
   			</td>
   		</tr>
 	  </table>

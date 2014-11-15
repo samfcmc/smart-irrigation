@@ -1,6 +1,8 @@
 
 var App = angular.module('App', 
-	['ui.bootstrap', 'ui.router']);
+	['ui.bootstrap', 'ui.router',
+	'ngResource',
+	'Resources']);
 
 App.config(['$stateProvider', '$urlRouterProvider',
 	function ($stateProvider, $urlRouterProvider) {
@@ -9,7 +11,8 @@ App.config(['$stateProvider', '$urlRouterProvider',
 
 		$stateProvider.state('home', {
 			url: '/',
-			templateUrl: '/static/views/home.html'
+			templateUrl: '/static/views/home.html',
+			controller: 'HomeCtrl'
 		});
 
 }]);

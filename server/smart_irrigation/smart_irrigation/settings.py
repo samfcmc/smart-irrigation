@@ -106,4 +106,5 @@ BOWER_INSTALLED_APPS = (
     'angular',
     'angular-bootstrap',
     'angular-ui-router',
+    'angular-resource',
 )
