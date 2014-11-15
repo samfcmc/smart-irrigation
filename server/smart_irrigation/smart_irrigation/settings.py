@@ -103,4 +103,7 @@ BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_ROOT, 'components')
 BOWER_INSTALLED_APPS = (
     'jquery',
     'bootstrap',
+    'angular',
+    'angular-bootstrap',
+    'angular-ui-router',
 )
