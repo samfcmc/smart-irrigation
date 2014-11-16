@@ -2,7 +2,7 @@
 var App = angular.module('App', 
 	['ui.bootstrap', 'ui.router',
 	'ngResource',
-	'Resources']);
+	'Resources', 'Directives']);
 
 App.config(['$stateProvider', '$urlRouterProvider',
 	function ($stateProvider, $urlRouterProvider) {
@@ -13,6 +13,12 @@ App.config(['$stateProvider', '$urlRouterProvider',
 			url: '/',
 			templateUrl: '/static/views/home.html',
 			controller: 'HomeCtrl'
+		});
+
+		$stateProvider.state('config', {
+			url: '/config',
+			templateUrl: '/static/views/config.html',
+			controller: 'ConfigCtrl'
 		});
 
 }]);

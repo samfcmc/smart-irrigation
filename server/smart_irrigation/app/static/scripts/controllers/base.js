@@ -4,7 +4,12 @@
  * this one
  */
 
-App.controller('BaseCtrl', ['$scope', 
-	function ($scope) {
+App.controller('BaseCtrl', ['$scope', '$rootScope', 
+	'$state',
+	function ($scope, $rootScope, $state) {
+
+		$rootScope.activeState = function(stateName) {
+			return $state.includes(stateName);
+		}
 	
 }]);
