@@ -1,12 +1,12 @@
 #include <Arduino.h>
-#include "ConfigfThread.h"
+#include "ConfigThread.h"
 #include "CommThread.h"
 
 #include "common.h"
 
 #define TIMEOUT 300
 
-ConfigfThread::ConfigfThread(): Thread()
+ConfigThread::ConfigThread(): Thread()
 {
   
 }
@@ -21,7 +21,7 @@ enum Opcode {
   MESS_SET = 2,
 };
 
-void ConfigfThread::run()
+void ConfigThread::run()
 {
   if (commThread.hasMessageAvailable()) {
     union {

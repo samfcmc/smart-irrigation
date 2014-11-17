@@ -17,7 +17,7 @@ enum irrigation_parameter {
   PARAM_COUNT
 };
 
-class ConfigfThread: public Thread {
+class ConfigThread: public Thread {
 
 private:
 	//list<Thread*> observers;
@@ -25,7 +25,7 @@ private:
 public:
         int _params[PARAM_COUNT];
 
-	ConfigfThread();
+	ConfigThread();
 	//void addObserver(Thread*);
 
 	void run();

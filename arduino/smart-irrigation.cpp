@@ -3,10 +3,12 @@
 #include <ThreadController.h>
 #include "BlinkLedThread.h"
 #include "CommThread.h"
+#include "ConfigThread.h"
 
 #include "common.h"
 // Common data
 CommThread commThread;
+ConfigThread configThread;
 
 
 // System-relevant (low level) data
@@ -27,6 +29,7 @@ void setup() {
 	// Add threads to thread controller
 	//threadController.add(&blinkLedThread);
 	threadController.add(&commThread);
+	//threadController.add(&commThread);
 }
 
 void loop() {
