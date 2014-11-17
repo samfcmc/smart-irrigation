@@ -4,11 +4,16 @@
 #include "BlinkLedThread.h"
 #include "CommThread.h"
 
+#include "common.h"
+// Common data
+CommThread commThread;
+
+
+// System-relevant (low level) data
 int LED_PIN = 13;
 int TIMER_INTERVAL = 1000;
 
 BlinkLedThread blinkLedThread(LED_PIN, TIMER_INTERVAL);
-CommThread commThread;
 ThreadController threadController;
 char buffer[BUFF_SIZE];
 
