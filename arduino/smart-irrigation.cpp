@@ -3,12 +3,19 @@
 #include <ThreadController.h>
 #include "BlinkLedThread.h"
 #include "CommThread.h"
+#include "ConfigThread.h"
 
+#include "common.h"
+// Common data
+CommThread commThread;
+ConfigThread configThread;
+
+
+// System-relevant (low level) data
 int LED_PIN = 13;
 int TIMER_INTERVAL = 1000;
 
 BlinkLedThread blinkLedThread(LED_PIN, TIMER_INTERVAL);
-CommThread commThread;
 ThreadController threadController;
 char buffer[BUFF_SIZE];
 
@@ -22,6 +29,7 @@ void setup() {
 	// Add threads to thread controller
 	//threadController.add(&blinkLedThread);
 	threadController.add(&commThread);
+	//threadController.add(&commThread);
 }
 
 void loop() {
