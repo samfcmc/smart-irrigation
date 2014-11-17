@@ -2,17 +2,20 @@
  * Config Controller
  */
 
-App.controller('ConfigCtrl', ['$scope', '$controller', 
-	function ($scope, $controller) {
+App.controller('ConfigCtrl', ['$scope', '$controller',
+	'ConfigResource', '$stateParams',
+	function ($scope, $controller, ConfigResource, $stateParams) {
 
 		$controller('BaseCtrl', {$scope: $scope})
 
-		$scope.configuration = {
-			name: 'Name',
-			configuration: []
-		};
+		$scope.configuration = {configuration: []};
 
 		$scope.adding = false;
+
+		if($stateParams.id) {
+			//Load from resource
+			console.log($stateParams.id);
+		}
 
 		$scope.startAdding = function() {
 			$scope.adding = true;
@@ -30,7 +33,10 @@ App.controller('ConfigCtrl', ['$scope', '$controller',
 		}
 
 		$scope.saveChanges = function() {
-
+			ConfigResource.create($scope.configuration,
+				function(response) {
+					console.log(response);
+				});
 		}
 	
 }]);

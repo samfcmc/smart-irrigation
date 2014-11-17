@@ -106,96 +106,104 @@
 </div>
 
 <div class="row">
-<div class="panel panel-default"
-ng-if="adding">
-	<div class="panel-heading">
-		Environment Configuration
+	<div class="panel panel-default"
+	ng-if="adding">
+		<div class="panel-heading">
+			Environment Configuration
+		</div>
+			<div class="panel-body">
+				<form name="newConfigForm" novalidate
+				class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="control-label col-sm-2">
+							After how many days
+						</label>
+						<div class="col-sm-10">
+							<input type="text" 
+							class="form-control" 
+							name="after"
+							placeholder="How many days"
+							ng-model="newConfig.after"
+							required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2">
+							Temperature Min
+						</label>
+						<div class="col-sm-10">
+							<input type="text" 
+							class="form-control"
+							name="temperatureMin" 
+							placeholder="Temperature Min"
+							ng-model="newConfig.temperature.min"
+							required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2">
+							Temperature Max
+						</label>
+						<div class="col-sm-10">
+							<input type="text" 
+							class="form-control"
+							name="temperatureMax" 
+							placeholder="Temperature Max"
+							ng-model="newConfig.temperature.max"
+							required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2">
+							Humidity Min
+						</label>
+						<div class="col-sm-10">
+							<input type="text" 
+							class="form-control"
+							name="humidityMin" 
+							placeholder="Humidity Min"
+							ng-model="newConfig.humidity.min"
+							required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2">
+							Humidity Max
+						</label>
+						<div class="col-sm-10">
+							<input type="text"
+							class="form-control"
+							name="humidityMax" 
+							placeholder="Humidity Max"
+							ng-model="newConfig.humidity.max"
+							required>
+						</div>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-default"
+						ng-click="addConfiguration(newConfigForm.$valid, newConfig)">
+							<span 
+							class="glyphicon glyphicon-plus">
+							</span>
+							Add
+						</button>
+						<button class="btn btn-default"
+						ng-click="cancelAdding()">
+							<span 
+							class="glyphicon glyphicon-remove">
+							</span>
+							Cancel
+						</button>
+					</div>
+			</form>
+		</div>
 	</div>
-		<div class="panel-body">
-			<form name="newConfigForm" novalidate
-			class="form-horizontal" role="form">
-				<div class="form-group">
-					<label class="control-label col-sm-2">
-						After how many days
-					</label>
-					<div class="col-sm-10">
-						<input type="text" 
-						class="form-control" 
-						name="after"
-						placeholder="How many days"
-						ng-model="newConfig.after"
-						required>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-sm-2">
-						Temperature Min
-					</label>
-					<div class="col-sm-10">
-						<input type="text" 
-						class="form-control"
-						name="temperatureMin" 
-						placeholder="Temperature Min"
-						ng-model="newConfig.temperature.min"
-						required>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-sm-2">
-						Temperature Max
-					</label>
-					<div class="col-sm-10">
-						<input type="text" 
-						class="form-control"
-						name="temperatureMax" 
-						placeholder="Temperature Max"
-						ng-model="newConfig.temperature.max"
-						required>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-sm-2">
-						Humidity Min
-					</label>
-					<div class="col-sm-10">
-						<input type="text" 
-						class="form-control"
-						name="humidityMin" 
-						placeholder="Humidity Min"
-						ng-model="newConfig.humidity.min"
-						required>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-sm-2">
-						Humidity Max
-					</label>
-					<div class="col-sm-10">
-						<input type="text"
-						class="form-control"
-						name="humidityMax" 
-						placeholder="Humidity Max"
-						ng-model="newConfig.humidity.max"
-						required>
-					</div>
-				</div>
-				<div class="form-group">
-					<button class="btn btn-default"
-					ng-click="addConfiguration(newConfigForm.$valid, newConfig)">
-						<span 
-						class="glyphicon glyphicon-plus">
-						</span>
-						Add
-					</button>
-					<button class="btn btn-default"
-					ng-click="cancelAdding()">
-						<span 
-						class="glyphicon glyphicon-remove">
-						</span>
-						Cancel
-					</button>
-				</div>
-		</form>
-	</div>
+</div>
+
+<div class="row">
+	<button class="btn btn-default"
+	ng-click="saveChanges()">
+		Save changes
+	</button>
 </div>
 

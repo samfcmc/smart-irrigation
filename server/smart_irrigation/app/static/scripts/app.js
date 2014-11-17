@@ -15,10 +15,22 @@ App.config(['$stateProvider', '$urlRouterProvider',
 			controller: 'HomeCtrl'
 		});
 
+		$stateProvider.state('plants', {
+			url: '/plants',
+			templateUrl: '/static/views/plants.html',
+			controller: 'PlantsCtrl'
+		})
+
 		$stateProvider.state('config', {
 			url: '/config',
 			templateUrl: '/static/views/config.html',
 			controller: 'ConfigCtrl'
 		});
+
+		$stateProvider.state('plant', {
+			url: '/plant/{id}',
+			templateUrl: '/static/views/config.html',
+			controller: 'ConfigCtrl'
+		})
 
 }]);

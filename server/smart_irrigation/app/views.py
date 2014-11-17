@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
 from django.contrib.auth import logout, login, authenticate
+from app.models import UserPlants, Plant, Configuration
 import json
 
 # Return json
@@ -34,9 +37,52 @@ def user_login(request):
 	return index(request)
 
 
+"""
+	REST endpoints
+"""
 def status(request):
 	response = {'name': 'Test',
 				'temperature': 0,
 				'humidity': 0}
 
 	return getJson(response)
+
+def plants(request):
+	user_plants = UserPlants.objects.filter(user=request.user)
+	response = {'plants': []}
+
+	for user_plant in user_plants:
+		for plant in user_plant.plants.all():	
+			plant_json = {'id': plant.id, 'name': plant.name}
+			response['plants'].append(plant_json)
+
+	return getJson(response)
+
+@csrf_exempt
+def config(request):
+	if request.method == 'POST':
+		#Create config
+		json_str = request.body.decode(encoding='UTF-8')
+		data = json.loads(json_str)
+		name = data['name']
+		plant = Plant.objects.create(name=name)
+		user = request.user
+		user_plants, created = UserPlants.objects.get_or_create(user=user)
+		user_plants.plants.add(plant)
+		for configuration in data['configuration']:
+			after_date = configuration['after']
+			temperature_min = configuration['temperature']['min']
+			temperature_max = configuration['temperature']['max']
+			humidity_min = configuration['humidity']['min']
+			humidity_max = configuration['humidity']['max']
+			configuration = Configuration.objects.create(after_date = after_date, temperature_min = temperature_min, temperature_max = temperature_max, humidity_min = humidity_min, humidity_max = humidity_max)
+			plant.configurations.add(configuration)
+			configuration.save()
+
+		plant.save()
+		user_plants.save()
+
+		response = {'created': True}
+		return getJson(response)
+	else:
+		return HttpResponse('Wrong method!')

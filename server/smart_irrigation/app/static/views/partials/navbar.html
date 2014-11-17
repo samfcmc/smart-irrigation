@@ -12,7 +12,7 @@ role="navigation">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" ui-sref="home">
         Smart-irrigation
       </a>
     </div>
@@ -23,9 +23,10 @@ role="navigation">
               Home
             </a>
         </li>
-        <li ng-class="{'active': activeState('config')}">
-            <a ui-sref="config">
-              Configuration
+        <li 
+        ng-class="{'active': activeState('plants')}">
+            <a ui-sref="plants">
+              My Plants
             </a>
         </li>
       </ul>
