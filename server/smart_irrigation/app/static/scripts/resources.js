@@ -14,9 +14,13 @@ Resources.factory('PlantsResource',
 	['$resource', 
 	function ($resource) {
 		var url = 'api/plants';
+		var plantUrl = 'api/plant/:id'
 
 		return $resource(url, {}, {
-			'list': {method: 'GET'}
+			'list': {method: 'GET'},
+			'get': {url: plantUrl,
+				method: 'GET',
+				params: {'id': '@id'}}
 		});
 }]);
 

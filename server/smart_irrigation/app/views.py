@@ -86,3 +86,13 @@ def config(request):
 		return getJson(response)
 	else:
 		return HttpResponse('Wrong method!')
+
+def plant(request, pk):
+	plant = Plant.objects.get(id=pk)
+	response = {'name': plant.name, 'configuration': []}
+
+	for configuration in plant.configurations.all():
+		config_json = {'after': configuration.after_date, 'temperature': {'min': configuration.temperature_min, 'max': configuration.temperature_max}, 'humidity': {'min': configuration.humidity_min, 'max': configuration.humidity_max}}
+		response['configuration'].append(config_json)
+
+	return getJson(response)

@@ -3,8 +3,8 @@
  */
 
 App.controller('ConfigCtrl', ['$scope', '$controller',
-	'ConfigResource', '$stateParams',
-	function ($scope, $controller, ConfigResource, $stateParams) {
+	'ConfigResource', 'PlantsResource', '$stateParams',
+	function ($scope, $controller, ConfigResource, PlantsResource, $stateParams) {
 
 		$controller('BaseCtrl', {$scope: $scope})
 
@@ -14,7 +14,10 @@ App.controller('ConfigCtrl', ['$scope', '$controller',
 
 		if($stateParams.id) {
 			//Load from resource
-			console.log($stateParams.id);
+			PlantsResource.get({id: $stateParams.id},
+				function(response) {
+					$scope.configuration = response;
+			});
 		}
 
 		$scope.startAdding = function() {
