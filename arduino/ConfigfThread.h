@@ -23,7 +23,7 @@ private:
 	//list<Thread*> observers;
 
 public:
-        int param[PARAM_COUNT];
+        int _params[PARAM_COUNT];
 
 	ConfigfThread();
 	//void addObserver(Thread*);
