@@ -5,11 +5,18 @@
  */
 
 App.controller('BaseCtrl', ['$scope', '$rootScope', 
-	'$state',
-	function ($scope, $rootScope, $state) {
+	'$state', 'UserResource',
+	function ($scope, $rootScope, $state, UserResource) {
 
 		$rootScope.activeState = function(stateName) {
 			return $state.includes(stateName);
+		}
+
+		$rootScope.initUser = function() {
+			UserResource.get({},
+				function(response) {
+					$rootScope.user = response;
+			})
 		}
 	
 }]);

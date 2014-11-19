@@ -65,3 +65,13 @@ Resources.factory('AccountResource',
 				params: {'id': '@id'}},
 		});
 }]);
+
+Resources.factory('UserResource', 
+	['$resource', 
+	function ($resource) {
+		var url = 'api/user';
+
+		return $resource(url, {}, {
+			'get': {method: 'GET'}
+		});
+}]);

@@ -186,3 +186,8 @@ def add_to_account(request, pk):
 		return getJson(response)
 	else:
 		return method_not_allowed(request)
+
+def user(request):
+	user = request.user
+	response = {'username': user.username}
+	return getJson(response)
