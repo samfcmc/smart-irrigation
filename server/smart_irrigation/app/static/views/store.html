@@ -1,0 +1,38 @@
+<div class="row">
+	<form name="searchForm" class="form-inline">
+		<div class="form-group">
+			<input type="text" class="form-control"
+			name="query" ng-model="search.query"
+			placeholder="Search query">
+		</div>
+	</form>
+</div>
+
+<div class="row">
+	<table class="table table-striped">
+	  <thead>
+	  	<tr>
+	  		<td>Name</td>
+	  		<td>User</td>
+	  		<td></td>
+	  	</tr>
+	  </thead>
+	  <tbody>
+	  	<tr ng-repeat="plant in plants | filter: search.query">
+	  		<td>
+  				{{plant.name}}
+	  		</td>
+	  		<td>
+	  			{{plant.creator}}
+	  		</td>
+	  		<td>
+	  			<a href="" ng-click="addToAccount(plant)">
+	  				<span 
+	  				class="glyphicon glyphicon-download-alt">
+	  				</span>
+	  			</a>
+	  		</td>
+	  	</tr>
+	  </tbody>
+	</table>
+</div>

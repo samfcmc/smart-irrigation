@@ -29,8 +29,15 @@ role="navigation">
               My Plants
             </a>
         </li>
+        <li 
+        ng-class="{'active': activeState('store')}">
+            <a ui-sref="store">
+              Store
+            </a>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li>{{user.username}}</li>
         <li>
           <a href="/app/logout">Logout</a>
         </li>

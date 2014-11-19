@@ -40,3 +40,28 @@ Resources.factory('ConfigResource',
 			'create': {method: 'POST'}
 		});
 }]);
+
+Resources.factory('StoreResource', 
+	['$resource', 
+	function ($resource) {
+		var url = 'api/store';
+		var shareUrl = 'api/share/:id/';
+
+		return $resource(url, {}, {
+			'list': {method: 'GET'},
+			'share': {url: shareUrl,
+				method: 'POST',
+				params: {'id': '@id'}}
+		});
+}]);
+
+Resources.factory('AccountResource', 
+	['$resource', 
+	function ($resource) {
+		var url = 'api/account/:id/';
+
+		return $resource(url, {}, {
+			'addPlant': {method: 'POST',
+				params: {'id': '@id'}},
+		});
+}]);

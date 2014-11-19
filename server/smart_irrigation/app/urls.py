@@ -14,4 +14,7 @@ urlpatterns = patterns('',
 		url(r'^api/config', views.config, name='config'),
 		url(r'^api/plant/(?P<pk>\d+)/?$', views.plant, name='plant'),
 		url(r'^api/sync/(?P<pk>\d+)/?$', views.sync, name='sync'),
+		url(r'^api/store/', views.store_plants, name='store'),
+		url(r'^api/share/(?P<pk>\d+)/?$', views.share_in_store, name='share in store'),
+		url(r'^api/account/(?P<pk>\d+)/?$', views.add_to_account, name='add to account'),
 )

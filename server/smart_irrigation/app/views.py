@@ -43,6 +43,29 @@ def user_login(request):
 """
 	REST endpoints
 """
+
+def method_not_allowed(request):
+	response = {'error': 'method ' + request.method + ' not allowed'}
+	return getJson(response)
+
+def plant_to_json(plant):
+	response = {'id': plant.id, 'name': plant.name, 'synced': plant.synced, 'store': plant.in_store, 'creator': plant.creator.username,'configuration': []}
+	configurations = plant.configurations.all()
+	for configuration in configurations:
+		config_json = {'after': configuration.after_date, 'temperature': {'min': configuration.temperature_min, 'max': configuration.temperature_max}, 'humidity': {'min': configuration.humidity_min, 'max': configuration.humidity_max}}
+		response['configuration'].append(config_json)
+
+	return response
+
+def plants_to_json(plants):
+	response = {'plants': []}
+	for plant in plants:
+		plant_json = plant_to_json(plant)
+		response['plants'].append(plant_json)
+
+	return response
+
+
 def status(request):
 	response = {'name': 'Test',
 				'temperature': 0,
@@ -56,7 +79,7 @@ def plants(request):
 
 	for user_plant in user_plants:
 		for plant in user_plant.plants.all():	
-			plant_json = {'id': plant.id, 'name': plant.name, 'synced': plant.synced}
+			plant_json = plant_to_json(plant)
 			response['plants'].append(plant_json)
 
 	return getJson(response)
@@ -68,7 +91,7 @@ def config(request):
 		json_str = request.body.decode(encoding='UTF-8')
 		data = json.loads(json_str)
 		name = data['name']
-		plant = Plant.objects.create(name=name)
+		plant = Plant.objects.create(name=name, creator=request.user)
 		user = request.user
 		user_plants, created = UserPlants.objects.get_or_create(user=user)
 		user_plants.plants.add(plant)
@@ -81,7 +104,6 @@ def config(request):
 			configuration = Configuration.objects.create(after_date = after_date, temperature_min = temperature_min, temperature_max = temperature_max, humidity_min = humidity_min, humidity_max = humidity_max)
 			plant.configurations.add(configuration)
 			configuration.save()
-
 		plant.save()
 		user_plants.save()
 
@@ -90,23 +112,26 @@ def config(request):
 	else:
 		return HttpResponse('Wrong method!')
 
+
 @csrf_exempt
 def plant(request, pk):
 	plant = Plant.objects.get(id=pk)
 	configurations = plant.configurations.all()
 	if request.method == 'GET':
-		response = {'name': plant.name, 'synced': plant.synced, 'configuration': []}
-		for configuration in configurations:
-			config_json = {'after': configuration.after_date, 'temperature': {'min': configuration.temperature_min, 'max': configuration.temperature_max}, 'humidity': {'min': configuration.humidity_min, 'max': configuration.humidity_max}}
-			response['configuration'].append(config_json)
-
+		response = plant_to_json(plant)
 		return getJson(response)
 	elif request.method == "DELETE":
-		#Delete configurations
-		for configuration in configurations:
-			configuration.delete()
-		#Delete plant
-		plant.delete()
+		#Check if the user is the owner
+		if plant.creator == request.user:
+			#If the user is the owner
+			#Delete configurations
+			for configuration in configurations:
+				configuration.delete()
+			#Delete plant
+			plant.delete()
+		else:
+			user_plants, created = UserPlants.objects.get_or_create(user=request.user)
+			user_plants.plants.remove(plant)
 		response = {'deleted': True}
 		return getJson(response)
 
@@ -126,9 +151,38 @@ def sync(request, pk):
 		#TODO: Use Irrigation Control
 		response = {'synced': True}
 	else:
-		response = {'error': 'method not allwoed'}
+		return method_not_allowed(request)
 	
 	return getJson(response)
 
+@csrf_exempt
+def share_in_store(request, pk):
+	if request.method == 'POST':
+		plant = Plant.objects.get(id = pk)
+		plant.in_store = True
+		plant.save()
+		response = {'shared': True}
+		return getJson(response)
+	else:
+		return method_not_allowed()
 
+@csrf_exempt
+def store_plants(request):
+	if request.method == 'GET':
+		plants = Plant.objects.filter(in_store=True)
+		plants_json = plants_to_json(plants)
+		return getJson(plants_json)
+	else:
+		return method_not_allowed(request)
 
+@csrf_exempt
+def add_to_account(request, pk):
+	if request.method == 'POST':
+		plant = Plant.objects.get(id = pk)
+		user_plants, created = UserPlants.objects.get_or_create(user=request.user)
+		user_plants.plants.add(plant)
+		user_plants.save()
+		response = {'added': True}
+		return getJson(response)
+	else:
+		return method_not_allowed(request)

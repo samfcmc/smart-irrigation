@@ -12,8 +12,6 @@ App.controller('ConfigCtrl', ['$scope', '$controller',
 
 		$scope.adding = false;
 
-		
-
 		$scope.startAdding = function() {
 			$scope.adding = true;
 		}

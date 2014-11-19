@@ -39,4 +39,10 @@ App.config(['$stateProvider', '$urlRouterProvider',
 			controller: 'SyncCtrl'
 		});
 
+		$stateProvider.state('store', {
+			url: '/store',
+			templateUrl: '/static/views/store.html',
+			controller: 'StoreCtrl'
+		})
+
 }]);

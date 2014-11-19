@@ -2,8 +2,8 @@
  * Plants Controller
  */
  App.controller('PlantsCtrl', ['$scope', '$controller',
-	'PlantsResource',	
-	function ($scope, $controller, PlantsResource) {
+	'PlantsResource', 'StoreResource',	
+	function ($scope, $controller, PlantsResource, StoreResource) {
 
 	  	$controller('BaseCtrl', {$scope: $scope});
 
@@ -21,6 +21,13 @@
 	  		});
 	  	}
 
-	  	
+	  	$scope.share = function(plant) {
+	  		StoreResource.share({id: plant.id},
+	  			function(response) {
+	  				if(response.shared) {
+	  					plant.store = true;
+	  				}
+	  		});
+	  	}
 
- }])
+ }]);

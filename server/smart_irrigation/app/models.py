@@ -13,6 +13,8 @@ class Plant(models.Model):
 	name = models.CharField(max_length=200)
 	configurations = models.ManyToManyField(Configuration)
 	synced = models.BooleanField(default=False)
+	in_store = models.BooleanField(default=False)
+	creator = models.ForeignKey(User)
 
 class UserPlants(models.Model):
 	user = models.ForeignKey(User)

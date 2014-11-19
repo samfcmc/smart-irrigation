@@ -10,6 +10,7 @@
 	  <thead>
 	  	<tr>
 	  		<td>Name</td>
+	  		<td>User</td>
 	  		<td></td>
 	  	</tr>
 	  </thead>
@@ -21,6 +22,9 @@
 	  			</a>
 	  		</td>
 	  		<td>
+	  			{{plant.creator}}
+	  		</td>
+	  		<td>
 	  			<a href="" ng-click="deletePlant(plant)">
 	  				<span class="glyphicon glyphicon-trash">
 	  				</span>
@@ -29,6 +33,11 @@
 	  			ng-if="!plant.synced">
 	  				<span 
 	  				class="glyphicon glyphicon-refresh">
+	  				</span>
+	  			</a>
+	  			<a href="" ng-click="share(plant)"
+	  			ng-if="!plant.store">
+	  				<span class="glyphicon glyphicon-share">
 	  				</span>
 	  			</a>
 	  		</td>
