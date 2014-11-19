@@ -7,7 +7,8 @@
 			<input type="text" class="form-control"
 			name="name" 
 			placeholder="Name"
-			ng-model="configuration.name">
+			ng-model="configuration.name"
+			ng-disabled="!configuration.owner">
 		</div>
 	</div>
 </div>
@@ -87,7 +88,8 @@
 				</div>
 			</form>
 		</div>
-		<div class="panel-footer">
+		<div class="panel-footer"
+		ng-if="configuration.owner">
 			<a href="" ng-click="deleteConfiguration(configuration)">
 				<span class="glyphicon glyphicon-trash"></span>
 				Delete
@@ -96,7 +98,7 @@
 	</div>
 </div>
 
-<div class="row">
+<div class="row" ng-if="configuration.owner">
 	<div class="panel panel-default"
 	ng-show="!adding">
 		<div class="panel-heading">
@@ -116,7 +118,7 @@
 	</div>
 </div>
 
-<div class="row">
+<div class="row" ng-if="configuration.owner">
 	<div class="panel panel-default"
 	ng-if="adding">
 		<div class="panel-heading">
@@ -211,7 +213,7 @@
 	</div>
 </div>
 
-<div class="row">
+<div class="row" ng-if="configuration.owner">
 	<button class="btn btn-default"
 	ng-click="saveChanges()">
 		Save changes

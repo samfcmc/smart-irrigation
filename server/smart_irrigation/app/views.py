@@ -48,8 +48,8 @@ def method_not_allowed(request):
 	response = {'error': 'method ' + request.method + ' not allowed'}
 	return getJson(response)
 
-def plant_to_json(plant):
-	response = {'id': plant.id, 'name': plant.name, 'synced': plant.synced, 'store': plant.in_store, 'creator': plant.creator.username,'configuration': []}
+def plant_to_json(plant, request):
+	response = {'id': plant.id, 'name': plant.name, 'synced': plant.synced, 'store': plant.in_store, 'creator': plant.creator.username, 'owner': plant.creator == request.user, 'configuration': []}
 	configurations = plant.configurations.all()
 	for configuration in configurations:
 		config_json = {'after': configuration.after_date, 'temperature': {'min': configuration.temperature_min, 'max': configuration.temperature_max}, 'humidity': {'min': configuration.humidity_min, 'max': configuration.humidity_max}}
@@ -57,10 +57,10 @@ def plant_to_json(plant):
 
 	return response
 
-def plants_to_json(plants):
+def plants_to_json(plants, request):
 	response = {'plants': []}
 	for plant in plants:
-		plant_json = plant_to_json(plant)
+		plant_json = plant_to_json(plant, request)
 		response['plants'].append(plant_json)
 
 	return response
@@ -79,7 +79,7 @@ def plants(request):
 
 	for user_plant in user_plants:
 		for plant in user_plant.plants.all():	
-			plant_json = plant_to_json(plant)
+			plant_json = plant_to_json(plant, request)
 			response['plants'].append(plant_json)
 
 	return getJson(response)
@@ -110,7 +110,38 @@ def config(request):
 		response = {'created': True}
 		return getJson(response)
 	else:
-		return HttpResponse('Wrong method!')
+		return method_not_allowed()
+
+@csrf_exempt
+def edit_config(request, plant_id):
+	if request.method == 'POST':
+		json_str = request.body.decode(encoding='UTF-8')
+		data = json.loads(json_str)
+		plant = Plant.objects.get(id=plant_id)
+		plant.name = data['name']
+
+		#Delete previous configuration
+		for configuration in plant.configurations.all():
+			plant.configurations.remove(configuration)
+			configuration.delete()
+
+		#Add the new configurations
+		for configuration in data['configuration']:
+			after_date = configuration['after']
+			temperature_min = configuration['temperature']['min']
+			temperature_max = configuration['temperature']['max']
+			humidity_min = configuration['humidity']['min']
+			humidity_max = configuration['humidity']['max']
+			configuration = Configuration.objects.create(after_date = after_date, temperature_min = temperature_min, temperature_max = temperature_max, humidity_min = humidity_min, humidity_max = humidity_max)
+			plant.configurations.add(configuration)
+			configuration.save()
+
+		response = {'edited': True}
+		plant.save()
+		return getJson(response)
+	else:
+		return method_not_allowed()
+
 
 
 @csrf_exempt
@@ -118,7 +149,7 @@ def plant(request, pk):
 	plant = Plant.objects.get(id=pk)
 	configurations = plant.configurations.all()
 	if request.method == 'GET':
-		response = plant_to_json(plant)
+		response = plant_to_json(plant, request)
 		return getJson(response)
 	elif request.method == "DELETE":
 		#Check if the user is the owner
@@ -170,7 +201,7 @@ def share_in_store(request, pk):
 def store_plants(request):
 	if request.method == 'GET':
 		plants = Plant.objects.filter(in_store=True)
-		plants_json = plants_to_json(plants)
+		plants_json = plants_to_json(plants, request)
 		return getJson(plants_json)
 	else:
 		return method_not_allowed(request)

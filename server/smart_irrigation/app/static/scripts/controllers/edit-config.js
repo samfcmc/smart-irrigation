@@ -3,8 +3,8 @@
  */
 
 App.controller('EditConfigCtrl', ['$scope', '$controller',
-	'$stateParams', 'PlantsResource',
-	function ($scope, $controller, $stateParams, PlantsResource) {
+	'$stateParams', '$state', 'PlantsResource', 'ConfigResource',
+	function ($scope, $controller, $stateParams, $state, PlantsResource, ConfigResource) {
 
 		$controller('ConfigCtrl', {$scope: $scope});
 
@@ -14,6 +14,14 @@ App.controller('EditConfigCtrl', ['$scope', '$controller',
 				function(response) {
 					$scope.configuration = response;
 			});
+		}
+
+		$scope.saveChanges = function() {
+			ConfigResource.edit({id: $stateParams.id},
+				$scope.configuration,
+				function(response) {
+					$state.go('plants');
+			})
 		}
 
 }]);

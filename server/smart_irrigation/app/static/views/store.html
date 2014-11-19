@@ -8,7 +8,7 @@
 	</form>
 </div>
 
-<div class="row">
+<div class="row" ng-if="plants.length > 0">
 	<table class="table table-striped">
 	  <thead>
 	  	<tr>
@@ -20,7 +20,9 @@
 	  <tbody>
 	  	<tr ng-repeat="plant in plants | filter: search.query">
 	  		<td>
-  				{{plant.name}}
+	  			<a ui-sref="plant({id: plant.id})">
+	  				{{plant.name}}
+	  			</a>
 	  		</td>
 	  		<td>
 	  			{{plant.creator}}

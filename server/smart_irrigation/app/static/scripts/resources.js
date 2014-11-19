@@ -35,9 +35,13 @@ Resources.factory('ConfigResource',
 	['$resource', 
 	function ($resource) {
 		var url = 'api/config';
+		var editUrl = url + '/:id';
 
 		return $resource(url, {}, {
-			'create': {method: 'POST'}
+			'create': {method: 'POST'},
+			'edit': {url: editUrl,
+				method: 'POST',
+				params: {'id': '@id'}}
 		});
 }]);
 
