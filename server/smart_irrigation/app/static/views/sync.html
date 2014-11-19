@@ -6,7 +6,8 @@
 			<div class="panel-body">
 				<form name="syncForm" class="form-horizontal"
 				role="form" novalidade>
-					<div class="form-group">
+					<div class="form-group"
+					ng-class="{'has-error': syncForm.$dirty && syncForm.$invalid}">
 						<label class="control-label col-sm-2">
 							How many days since started
 						</label>

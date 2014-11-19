@@ -127,7 +127,8 @@
 			<div class="panel-body">
 				<form name="newConfigForm" novalidate
 				class="form-horizontal" role="form">
-					<div class="form-group">
+					<div class="form-group"
+					ng-class="{'has-error': newConfigForm.after.$dirty && newConfigForm.after.$invalid}">
 						<label class="control-label col-sm-2">
 							After how many days
 						</label>
@@ -140,7 +141,8 @@
 							required>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group"
+					ng-class="{'has-error': newConfigForm.temperatureMin.$dirty && newConfigForm.temperatureMin.$invalid}">
 						<label class="control-label col-sm-2">
 							Temperature Min
 						</label>
@@ -153,7 +155,8 @@
 							required>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group"
+					ng-class="{'has-error': newConfigForm.temperatureMax.$dirty && newConfigForm.temperatureMax.$invalid}">
 						<label class="control-label col-sm-2">
 							Temperature Max
 						</label>
@@ -166,7 +169,8 @@
 							required>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group"
+					ng-class="{'has-error': newConfigForm.humidityMin.$dirty && newConfigForm.humidityMin.$invalid}">
 						<label class="control-label col-sm-2">
 							Humidity Min
 						</label>
@@ -179,7 +183,8 @@
 							required>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group"
+					ng-class="{'has-error': newConfigForm.humidityMax.$dirty && newConfigForm.humidityMax.$invalid}">
 						<label class="control-label col-sm-2">
 							Humidity Max
 						</label>
