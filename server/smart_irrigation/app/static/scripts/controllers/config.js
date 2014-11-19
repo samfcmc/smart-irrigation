@@ -27,6 +27,11 @@ App.controller('ConfigCtrl', ['$scope', '$controller',
 			}
 		}
 
+		$scope.deleteConfiguration = function(configuration) {
+			var index = $scope.configuration.configuration.indexOf(configuration);	
+			$scope.configuration.configuration.splice(index, 1);
+		}
+
 		
 	
 }]);

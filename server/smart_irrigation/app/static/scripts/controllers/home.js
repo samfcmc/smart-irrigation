@@ -9,17 +9,22 @@ App.controller('HomeCtrl', ['$scope', '$controller',
 		$controller('BaseCtrl', {$scope: $scope});
 
 		$scope.status = {};
+		$scope.timer = {};
 
 		$scope.initStatus = function() {
 			console.log('Checking status');
 			StatusResource.get({}, 
 				function(response) {
 					$scope.status = response;
-					$timeout(function(){
+					$scope.timer = $timeout(function(){
 						$scope.initStatus();
-					}, 10000);
+					}, 5000);
 			});
 		}
+
+		$scope.$on('$destroy', function(event) {
+			$timeout.cancel($scope.timer);
+		});
 
 		$scope.initStatus();
 

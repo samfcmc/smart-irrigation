@@ -17,7 +17,7 @@
 		<div class="panel-heading">
 			Environment Configuration
 		</div>
-			<div class="panel-body">
+		<div class="panel-body">
 			<form name="configForm" novalidate
 			class="form-horizontal" role="form">
 				<div class="form-group">
@@ -29,7 +29,8 @@
 						class="form-control" 
 						name="after"
 						placeholder="How many days"
-						ng-model="config.after">
+						ng-model="config.after"
+						disabled>
 					</div>
 				</div>
 				<div class="form-group">
@@ -41,7 +42,8 @@
 						class="form-control"
 						name="temperatureMin" 
 						placeholder="Temperature Min"
-						ng-model="config.temperature.min">
+						ng-model="config.temperature.min"
+						disabled>
 					</div>
 				</div>
 				<div class="form-group">
@@ -53,7 +55,8 @@
 						class="form-control"
 						name="temperatureMax" 
 						placeholder="Temperature Max"
-						ng-model="config.temperature.max">
+						ng-model="config.temperature.max"
+						disabled>
 					</div>
 				</div>
 				<div class="form-group">
@@ -65,7 +68,8 @@
 						class="form-control"
 						name="humidityMin" 
 						placeholder="Humidity Min"
-						ng-model="config.humidity.min">
+						ng-model="config.humidity.min"
+						disabled>
 					</div>
 				</div>
 				<div class="form-group">
@@ -77,11 +81,18 @@
 						class="form-control"
 						name="humidityMax" 
 						placeholder="Humidity Max"
-						ng-model="config.humidity.max">
+						ng-model="config.humidity.max"
+						disabled>
 					</div>
 				</div>
-			</div>
-		</form>
+			</form>
+		</div>
+		<div class="panel-footer">
+			<a href="" ng-click="deleteConfiguration(configuration)">
+				<span class="glyphicon glyphicon-trash"></span>
+				Delete
+			</a>
+		</div>
 	</div>
 </div>
 
