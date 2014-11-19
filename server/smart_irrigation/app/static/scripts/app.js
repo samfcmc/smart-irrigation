@@ -21,16 +21,22 @@ App.config(['$stateProvider', '$urlRouterProvider',
 			controller: 'PlantsCtrl'
 		})
 
-		$stateProvider.state('config', {
+		$stateProvider.state('create-config', {
 			url: '/config',
 			templateUrl: '/static/views/config.html',
-			controller: 'ConfigCtrl'
+			controller: 'CreateConfigCtrl'
 		});
 
 		$stateProvider.state('plant', {
 			url: '/plant/{id}',
 			templateUrl: '/static/views/config.html',
-			controller: 'ConfigCtrl'
-		})
+			controller: 'EditConfigCtrl'
+		});
+
+		$stateProvider.state('sync', {
+			url: '/sync/{id}',
+			templateUrl: '/static/views/sync.html',
+			controller: 'SyncCtrl'
+		});
 
 }]);

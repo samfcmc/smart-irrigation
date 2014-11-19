@@ -21,3 +21,8 @@ class IrrigationControl(object):
 		}
 
 		return status
+
+	def sync(self, configurations, days):
+		#TODO: Communicate with Arduino
+		result = {'synced': True}
+		return result

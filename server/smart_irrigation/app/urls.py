@@ -12,5 +12,6 @@ urlpatterns = patterns('',
 		url(r'^api/status', views.status, name='status'),
 		url(r'^api/plants', views.plants, name='plants'),
 		url(r'^api/config', views.config, name='config'),
-		url(r'^api/plant/(?P<pk>\d+)/$', views.plant, name='plant'),
+		url(r'^api/plant/(?P<pk>\d+)/?$', views.plant, name='plant'),
+		url(r'^api/sync/(?P<pk>\d+)/?$', views.sync, name='sync'),
 )

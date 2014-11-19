@@ -12,13 +12,7 @@ App.controller('ConfigCtrl', ['$scope', '$controller',
 
 		$scope.adding = false;
 
-		if($stateParams.id) {
-			//Load from resource
-			PlantsResource.get({id: $stateParams.id},
-				function(response) {
-					$scope.configuration = response;
-			});
-		}
+		
 
 		$scope.startAdding = function() {
 			$scope.adding = true;
@@ -35,11 +29,6 @@ App.controller('ConfigCtrl', ['$scope', '$controller',
 			}
 		}
 
-		$scope.saveChanges = function() {
-			ConfigResource.create($scope.configuration,
-				function(response) {
-					console.log(response);
-				});
-		}
+		
 	
 }]);

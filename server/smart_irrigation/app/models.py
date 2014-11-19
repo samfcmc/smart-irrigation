@@ -12,6 +12,7 @@ class Configuration(models.Model):
 class Plant(models.Model):
 	name = models.CharField(max_length=200)
 	configurations = models.ManyToManyField(Configuration)
+	synced = models.BooleanField(default=False)
 
 class UserPlants(models.Model):
 	user = models.ForeignKey(User)

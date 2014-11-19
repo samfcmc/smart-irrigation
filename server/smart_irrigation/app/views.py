@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 
 from django.contrib.auth import logout, login, authenticate
@@ -9,6 +9,9 @@ import json
 # Return json
 def getJson(response):
 	return HttpResponse(json.dumps(response), content_type="application/json")
+
+def redirectToIndex():
+	return HttpResponseRedirect('/app')
 
 # Create your views here.
 def index(request):
@@ -21,7 +24,7 @@ def index(request):
 
 def user_logout(request):
 	logout(request)
-	return index(request)
+	return redirectToIndex()
 
 def user_login(request):
 	if request.method == 'POST':
@@ -34,7 +37,7 @@ def user_login(request):
 		if user:
 			if user.is_active:
 				login(request, user)
-	return index(request)
+	return redirectToIndex()
 
 
 """
@@ -53,7 +56,7 @@ def plants(request):
 
 	for user_plant in user_plants:
 		for plant in user_plant.plants.all():	
-			plant_json = {'id': plant.id, 'name': plant.name}
+			plant_json = {'id': plant.id, 'name': plant.name, 'synced': plant.synced}
 			response['plants'].append(plant_json)
 
 	return getJson(response)
@@ -87,12 +90,45 @@ def config(request):
 	else:
 		return HttpResponse('Wrong method!')
 
+@csrf_exempt
 def plant(request, pk):
 	plant = Plant.objects.get(id=pk)
-	response = {'name': plant.name, 'configuration': []}
+	configurations = plant.configurations.all()
+	if request.method == 'GET':
+		response = {'name': plant.name, 'synced': plant.synced, 'configuration': []}
+		for configuration in configurations:
+			config_json = {'after': configuration.after_date, 'temperature': {'min': configuration.temperature_min, 'max': configuration.temperature_max}, 'humidity': {'min': configuration.humidity_min, 'max': configuration.humidity_max}}
+			response['configuration'].append(config_json)
 
-	for configuration in plant.configurations.all():
-		config_json = {'after': configuration.after_date, 'temperature': {'min': configuration.temperature_min, 'max': configuration.temperature_max}, 'humidity': {'min': configuration.humidity_min, 'max': configuration.humidity_max}}
-		response['configuration'].append(config_json)
+		return getJson(response)
+	elif request.method == "DELETE":
+		#Delete configurations
+		for configuration in configurations:
+			configuration.delete()
+		#Delete plant
+		plant.delete()
+		response = {'deleted': True}
+		return getJson(response)
 
+@csrf_exempt
+def sync(request, pk):
+	if request.method == 'POST':
+		plant = Plant.objects.get(id=pk)
+		synced_plants = Plant.objects.filter(synced=True)
+
+		for synced in synced_plants:
+			synced.synced = False
+			synced.save()
+
+		plant.synced = True
+		plant.save()
+
+		#TODO: Use Irrigation Control
+		response = {'synced': True}
+	else:
+		response = {'error': 'method not allwoed'}
+	
 	return getJson(response)
+
+
+

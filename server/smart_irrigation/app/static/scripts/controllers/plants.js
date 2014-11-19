@@ -13,4 +13,14 @@
 	  		$scope.plants = response.plants;
 	  	});
 
+	  	$scope.deletePlant = function(plant) {
+	  		PlantsResource.deletePlant({id: plant.id},
+	  			function(response) {
+	  				var index = $scope.plants.indexOf(plant);
+	  				$scope.plants.splice(index, 1);
+	  		});
+	  	}
+
+	  	
+
  }])

@@ -1,5 +1,5 @@
 <div class="row">
-	<a class="btn btn-default" ui-sref="config">
+	<a class="btn btn-default" ui-sref="create-config">
 		<span class="glyphicon glyphicon-plus"></span>
 		Add
 	</a>
@@ -20,7 +20,18 @@
 	  				{{plant.name}}
 	  			</a>
 	  		</td>
-	  		<td></td>
+	  		<td>
+	  			<a href="" ng-click="deletePlant(plant)">
+	  				<span class="glyphicon glyphicon-trash">
+	  				</span>
+	  			</a>
+	  			<a ui-sref="sync({id:plant.id})"
+	  			ng-if="!plant.synced">
+	  				<span 
+	  				class="glyphicon glyphicon-refresh">
+	  				</span>
+	  			</a>
+	  		</td>
 	  	</tr>
 	  </tbody>
 	</table>
