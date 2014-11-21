@@ -19,24 +19,32 @@ BlinkLedThread blinkLedThread(LED_PIN, TIMER_INTERVAL);
 ThreadController threadController;
 char buffer[BUFF_SIZE];
 
-void setup() {
-	//Tell connected client that Arduino is ready
-	Serial.begin(9600);
-	Serial.write('a');
-  
-  
-	pinMode(LED_PIN, OUTPUT);
-	// Add threads to thread controller
-	//threadController.add(&blinkLedThread);
-	threadController.add(&commThread);
-	//threadController.add(&commThread);
+/*
+ * Testing callbacks
+ */
+void onSent(int size) {
+	digitalWrite(LED_PIN, HIGH);
 }
 
+void onMessageReceived(char *message, int size) {
+	message[size - 1] = '\n';
+	commThread.sendMessage(message, size, onSent);
+}
+
+void setup() {
+  	// Init pins
+	pinMode(LED_PIN, OUTPUT);
+	
+	// Init threads
+	commThread.init();
+	commThread.setOnMessageReceived(onMessageReceived);
+
+	// Add Threads to Controller
+	threadController.add(&commThread);
+}
+
+
+
 void loop() {
-	if(commThread.hasMessageAvailable()) {
-		commThread.getMessage(buffer, BUFF_SIZE);
-		//buffer[BUFF_SIZE - 1] = '\0';
-		commThread.sendMessage(buffer);
-	}
   	threadController.run();
 }

@@ -2,9 +2,7 @@ import serial
 
 arduino = serial.Serial("/dev/ttyACM0", 9600);
 
-car = "n"
-while car != "a":
- car = arduino.read()
+car = arduino.read()
 print(car)
  
 to_send = b"testingoutofbufferlimits"
@@ -15,8 +13,7 @@ arduino.write(to_send)
 
 print(arduino.readline())
 
-
-
+arduino.close()
 
 arduino = serial.Serial("/dev/ttyACM0", 9600);
 print(arduino.read())
