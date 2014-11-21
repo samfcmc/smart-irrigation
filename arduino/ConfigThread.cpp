@@ -8,7 +8,7 @@
 
 ConfigThread::ConfigThread(): Thread()
 {
-  
+  this->commThread = CommThread::getInstance();
 }
 
 /*
@@ -23,7 +23,7 @@ enum Opcode {
 
 void ConfigThread::run()
 {
-  if (commThread.hasMessageAvailable()) {
+  if (commThread->hasMessageAvailable()) {
     union {
       char messBuff[BUFF_SIZE];
       struct {
@@ -40,7 +40,7 @@ void ConfigThread::run()
       } mess_set;
     } buff;
     
-    commThread.getMessage(buff.messBuff, BUFF_SIZE);
+    commThread->getMessage(buff.messBuff, BUFF_SIZE);
     
     switch (buff.mess_generic.opcode) {
       case MESS_GET:

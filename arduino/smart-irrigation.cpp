@@ -5,19 +5,21 @@
 #include "CommThread.h"
 #include "ConfigThread.h"
 
-#include "common.h"
 // Common data
-CommThread commThread;
-ConfigThread configThread;
-
+#include "common.h"
 
 // System-relevant (low level) data
 int LED_PIN = 13;
 int TIMER_INTERVAL = 1000;
 
-BlinkLedThread blinkLedThread(LED_PIN, TIMER_INTERVAL);
+// Threads
+CommThread *commThread = CommThread::getInstance();
+ConfigThread configThread;
 ThreadController threadController;
+
+//Buffer
 char buffer[BUFF_SIZE];
+char test[] = {250};
 
 /*
  * Testing callbacks
@@ -27,8 +29,7 @@ void onSent(int size) {
 }
 
 void onMessageReceived(char *message, int size) {
-	message[size - 1] = '\n';
-	commThread.sendMessage(message, size, onSent);
+	commThread->sendMessage(test, 1, onSent);
 }
 
 void setup() {
@@ -36,11 +37,11 @@ void setup() {
 	pinMode(LED_PIN, OUTPUT);
 	
 	// Init threads
-	commThread.init();
-	commThread.setOnMessageReceived(onMessageReceived);
+	commThread->init();
+	commThread->setOnMessageReceived(onMessageReceived);
 
 	// Add Threads to Controller
-	threadController.add(&commThread);
+	threadController.add(commThread);
 }
 
 

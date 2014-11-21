@@ -10,15 +10,18 @@ to_send = b"testingoutofbufferlimits"
 print("Sending " + str(to_send))
 
 arduino.write(to_send)
-
-print(arduino.readline())
+read = arduino.read()
+value = int.from_bytes(read, byteorder="little")
+print(value)
 
 arduino.close()
-
+"""
 arduino = serial.Serial("/dev/ttyACM0", 9600);
 print(arduino.read())
 to_send = b"testingoutofbufferlimits"
 print("Sending " + str(to_send))
 arduino.write(to_send)
-print(arduino.readline())
+print(arduino.read())
+
+arduino.close()"""
 

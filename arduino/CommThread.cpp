@@ -3,6 +3,8 @@
 
 #define TIMEOUT 300
 
+CommThread *CommThread::instance = NULL;
+
 CommThread::CommThread(): Thread() {
   this->state = STATE_IDLE;
   this->currentIndex = 0;
@@ -10,6 +12,13 @@ CommThread::CommThread(): Thread() {
   this->lastReceivedTimestamp = 0;
   this->onMessageReceived = NULL;
   this->onMessageSent = NULL;
+}
+
+CommThread *CommThread::getInstance() {
+	if(!CommThread::instance) {
+		CommThread::instance = new CommThread();
+	}
+	return CommThread::instance;
 }
 
 void CommThread::init(int rate) {
@@ -54,9 +63,9 @@ void CommThread::run()
 	}
 	else if(this->state == STATE_WX) {
 		char toSend;
-		if(this->currentIndex < this->messageSize || this->currentIndex < BUFF_SIZE) {
+		if(this->currentIndex < this->messageSize && this->currentIndex < BUFF_SIZE) {
 			toSend = this->outBuffer[this->currentIndex];
-			Serial.print(toSend);
+			Serial.write(toSend);
 			this->currentIndex++;
 		}
 		else {
@@ -94,9 +103,5 @@ void CommThread::sendMessage(char *buffer, int size, void (*callback)(int))
   this->currentIndex = 0;
   this->onMessageSent = callback;
   this->messageSize =  size;
-}
-
-void CommThread::setOnMessageReceived(void (*callback)(char*, int)) {
-	this->onMessageReceived = callback;
 }
 

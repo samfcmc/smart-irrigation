@@ -1,4 +1,5 @@
 #include <Thread.h>
+#include "CommThread.h"
 
 #define BUFF_SIZE	16
 
@@ -21,9 +22,9 @@ class ConfigThread: public Thread {
 
 private:
 	//list<Thread*> observers;
-
+	CommThread *commThread;
 public:
-        int _params[PARAM_COUNT];
+    int _params[PARAM_COUNT];
 
 	ConfigThread();
 	//void addObserver(Thread*);

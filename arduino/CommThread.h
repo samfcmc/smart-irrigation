@@ -1,6 +1,9 @@
+#ifndef COMM_THREAD
+#define COMM_THREAD
+
 #include <Thread.h>
 
-#define BUFF_SIZE	16
+#define BUFF_SIZE	25
 #define DEFAULT_RATE	9600
 
 enum State { 
@@ -23,15 +26,25 @@ private:
 	void (*onMessageReceived)(char*,int);
 	void (*onMessageSent)(int);
 
-public:
+	//Singleton
 	CommThread();
+	static CommThread *instance; 
+
+public:
+	
+	static CommThread *getInstance();
 	
 	void init(int rate = DEFAULT_RATE);
 	bool hasMessageAvailable();
 	bool isFree();
 	void getMessage(char *buffer, int size);
 	void sendMessage(char *buffer, int size, void (*callback)(int) = NULL);
-	void setOnMessageReceived(void (*callback)(char*, int size));
+	
+	inline void setOnMessageReceived(void (*callback)(char*, int size)) {
+		this->onMessageReceived = callback;
+	}
 
 	void run();
 };
+
+#endif
