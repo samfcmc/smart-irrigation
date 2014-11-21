@@ -8,7 +8,13 @@ CommThread::CommThread(): Thread() {
   this->currentIndex = 0;
   this->messageAvailable = false;
   this->lastReceivedTimestamp = 0;
+  this->onMessageReceived = NULL;
+  this->onMessageSent = NULL;
+}
 
+void CommThread::init(int rate) {
+	Serial.begin(rate);
+	Serial.write('a');
 }
 
 void CommThread::run()
@@ -40,22 +46,24 @@ void CommThread::run()
 				this->state = STATE_IDLE;
 				this->messageAvailable = true;
 				this->inBuffer[this->currentIndex - 1] = '\0';
+				if(this->onMessageReceived) {
+					this->onMessageReceived(this->inBuffer, this->currentIndex);
+				}
 			}
 		}
 	}
 	else if(this->state == STATE_WX) {
 		char toSend;
-		if(this->currentIndex < BUFF_SIZE) {
+		if(this->currentIndex < this->messageSize || this->currentIndex < BUFF_SIZE) {
 			toSend = this->outBuffer[this->currentIndex];
-			if(toSend == '\0') {
-				Serial.println("");		
-			}
-			else {
-				Serial.print(toSend);
-			}
+			Serial.print(toSend);
 			this->currentIndex++;
 		}
 		else {
+			// Message sent
+			if(this->onMessageSent) {
+				this->onMessageSent(this->currentIndex);
+			}
 			this->state = STATE_IDLE;
 			this->currentIndex = 0;
 		}		
@@ -79,11 +87,16 @@ void CommThread::getMessage(char *buffer, int size)
   this->messageAvailable = false;
 }
 
-void CommThread::sendMessage(char *buffer)
+void CommThread::sendMessage(char *buffer, int size, void (*callback)(int))
 {
-  strncpy(this->outBuffer, buffer, BUFF_SIZE);
-  this->outBuffer[BUFF_SIZE - 1] = '\0';
+  strncpy(this->outBuffer, buffer, size);
   this->state = STATE_WX;
   this->currentIndex = 0;
+  this->onMessageSent = callback;
+  this->messageSize =  size;
+}
+
+void CommThread::setOnMessageReceived(void (*callback)(char*, int)) {
+	this->onMessageReceived = callback;
 }
 
