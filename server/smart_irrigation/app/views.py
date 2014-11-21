@@ -6,6 +6,11 @@ from django.contrib.auth import logout, login, authenticate
 from app.models import UserPlants, Plant, Configuration
 import json
 
+from . import arduino
+from . import irrigation_control
+arduino = arduino.Arduino("/dev/ttyACM0")
+control = irrigation_control.IrrigationControl(arduino)
+
 # Return json
 def getJson(response):
 	return HttpResponse(json.dumps(response), content_type="application/json")
@@ -24,6 +29,7 @@ def index(request):
 
 def user_logout(request):
 	logout(request)
+	control.disconnect()
 	return redirectToIndex()
 
 def user_login(request):
@@ -67,9 +73,9 @@ def plants_to_json(plants, request):
 
 
 def status(request):
-	response = {'name': 'Test',
-				'temperature': 0,
-				'humidity': 0}
+	response = control.get_status()
+	synced_plant = UserPlants.objects.get(user=request.user).plants.filter(synced=True).first()
+	response['name'] = synced_plant.name
 
 	return getJson(response)
 
@@ -169,6 +175,8 @@ def plant(request, pk):
 @csrf_exempt
 def sync(request, pk):
 	if request.method == 'POST':
+		json_str = request.body.decode(encoding='UTF-8')
+		data = json.loads(json_str)
 		plant = Plant.objects.get(id=pk)
 		synced_plants = Plant.objects.filter(synced=True)
 
@@ -177,10 +185,11 @@ def sync(request, pk):
 			synced.save()
 
 		plant.synced = True
+		after = int(data['after'])
+		response = control.sync(plant.configurations.all(), after)
+		
 		plant.save()
 
-		#TODO: Use Irrigation Control
-		response = {'synced': True}
 	else:
 		return method_not_allowed(request)
 	
@@ -222,3 +231,29 @@ def user(request):
 	user = request.user
 	response = {'username': user.username}
 	return getJson(response)
+
+@csrf_exempt
+def set_temperature(request):
+	if request.method == 'POST':
+		json_str = request.body.decode(encoding='UTF-8')
+		data = json.loads(json_str)
+		temperature = data['temperature']
+		responseData = {'temperature': control.set_temperature(temperature)}
+		response = getJson(responseData)
+	else:
+		response = method_not_allowed()
+
+	return response
+
+@csrf_exempt
+def set_humidity(request):
+	if request.method == 'POST':
+		json_str = request.body.decode(encoding='UTF-8')
+		data = json.loads(json_str)
+		humidity = data['humidity']
+		responseData = {'humidity': control.set_humidity(humidity)}
+		response = getJson(responseData)
+	else:
+		response = method_not_allowed()
+
+	return response

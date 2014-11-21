@@ -1,0 +1,30 @@
+<div class="row">
+	<form name="temperatureForm" novalidate
+		class="form-horizontal" role="form">
+		<div class="form-group">
+			<input type="number" class="form-control"
+			placeholder="Temperature"
+			ng-model="simul.temperature"
+			required>
+		</div>
+		<button class="btn btn-default" 
+		ng-click="setTemperature(temperatureForm.$valid, simul)">
+			Set temperature
+		</button>
+	</form>
+</div>
+<div class="row">
+	<form name="humidityForm" novalidate
+		class="form-horizontal" role="form">
+		<div class="form-group">
+			<input type="number" class="form-control"
+			placeholder="Humidity"
+			ng-model="simul.humidity"
+			required>
+		</div>
+		<button class="btn btn-default" 
+		ng-click="setHumidity(humidityForm.$valid, simul)">
+			Set temperature
+		</button>
+	</form>
+</div>

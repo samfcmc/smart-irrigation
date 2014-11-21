@@ -18,7 +18,7 @@ App.controller('HomeCtrl', ['$scope', '$controller',
 					$scope.status = response;
 					$scope.timer = $timeout(function(){
 						$scope.initStatus();
-					}, 5000);
+					}, 10000);
 			});
 		}
 

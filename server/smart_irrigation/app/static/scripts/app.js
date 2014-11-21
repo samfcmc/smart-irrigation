@@ -43,6 +43,12 @@ App.config(['$stateProvider', '$urlRouterProvider',
 			url: '/store',
 			templateUrl: '/static/views/store.html',
 			controller: 'StoreCtrl'
-		})
+		});
+
+		$stateProvider.state('simul', {
+			url: '/simul',
+			templateUrl: '/static/views/simul.html',
+			controller: 'SimulCtrl'
+		});
 
 }]);

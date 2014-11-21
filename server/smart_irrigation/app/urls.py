@@ -19,4 +19,6 @@ urlpatterns = patterns('',
 		url(r'^api/share/(?P<pk>\d+)/?$', views.share_in_store, name='share in store'),
 		url(r'^api/account/(?P<pk>\d+)/?$', views.add_to_account, name='add to account'),
 		url(r'^api/user', views.user, name='user'),
+		url(r'^api/simul/temperature/?$', views.set_temperature, name='set temperature'),
+		url(r'^api/simul/humidity/?$', views.set_humidity, name='set humidity'),
 )

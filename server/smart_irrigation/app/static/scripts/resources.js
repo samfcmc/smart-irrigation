@@ -79,3 +79,20 @@ Resources.factory('UserResource',
 			'get': {method: 'GET'}
 		});
 }]);
+
+Resources.factory('SimulResource', 
+	['$resource', 
+	function ($resource) {
+		var url = 'api/simul';
+		var temperatureUrl = url + '/temperature';
+		var humidityUrl = url + '/humidity';
+
+		return $resource(url, {}, {
+			'temperature': {
+				url: temperatureUrl,
+				method: 'POST'},
+			'humidity': {
+				url: humidityUrl,
+				method: 'POST'}
+		});
+}]);

@@ -19,7 +19,7 @@ ThreadController threadController;
 
 //Buffer
 char buffer[BUFF_SIZE];
-char test[] = {250};
+char test[] = {0};
 
 /*
  * Testing callbacks
