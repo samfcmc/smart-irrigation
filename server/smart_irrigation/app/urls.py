@@ -21,4 +21,5 @@ urlpatterns = patterns('',
 		url(r'^api/user', views.user, name='user'),
 		url(r'^api/simul/temperature/?$', views.set_temperature, name='set temperature'),
 		url(r'^api/simul/humidity/?$', views.set_humidity, name='set humidity'),
+		url(r'^api/current/?$', views.current_configuration, name='current configuration'),
 )

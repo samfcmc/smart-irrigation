@@ -3,19 +3,20 @@
  */
 
 App.controller('HomeCtrl', ['$scope', '$controller',
-	'$timeout', 'StatusResource', 
-	function ($scope, $controller, $timeout, StatusResource) {
+	'$timeout', 'StatusResource', 'ConfigResource',
+	function ($scope, $controller, $timeout, StatusResource, ConfigResource) {
 
 		$controller('BaseCtrl', {$scope: $scope});
 
 		$scope.status = {};
+		$scope.configuration = {};
 		$scope.timer = {};
 
 		$scope.initStatus = function() {
-			console.log('Checking status');
 			StatusResource.get({}, 
 				function(response) {
 					$scope.status = response;
+					$scope.configuration = response.configuration
 					$scope.timer = $timeout(function(){
 						$scope.initStatus();
 					}, 10000);

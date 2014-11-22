@@ -1,4 +1,21 @@
 <div class="row">
+  <div class="alert alert-danger" role="alert"
+  ng-if="status.state.temperature == 'HIGH'">
+    Temperature is too high! Consider change to another
+    place
+  </div>
+  <div class="alert alert-danger" role="alert"
+  ng-if="status.state.temperature == 'LOW'">
+    Temperature is too low! Consider change to another
+    place
+  </div>
+  <div class="alert alert-info" role="alert"
+  ng-if="status.state.watering">
+    Watering...
+  </div>
+</div>
+
+<div class="row">
 
 	<div class="panel panel-default">
 	  <div class="panel-heading">
@@ -70,7 +87,7 @@
   				Min
   			</td>
   			<td>
-  				X ºC
+  				{{configuration.temperature.min}} ºC
   			</td>
   		</tr>
   		<tr>
@@ -84,7 +101,7 @@
   				Max
   			</td>
   			<td>
-  				X ºC
+  				{{configuration.temperature.max}} ºC
   			</td>
   		</tr>
   		<tr>
@@ -98,7 +115,7 @@
   				Min
   			</td>
   			<td>
-  				X %
+  				{{configuration.humidity.min}} %
   			</td>
   		</tr>
   		<tr>
@@ -112,7 +129,7 @@
   				Max
   			</td>
   			<td>
-  				X %
+  				{{configuration.humidity.max}} %
   			</td>
   		</tr>
 	  </table>

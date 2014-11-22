@@ -257,3 +257,13 @@ def set_humidity(request):
 		response = method_not_allowed()
 
 	return response
+
+def current_configuration(request):
+	if request.method == 'GET':
+		conf = control.get_current_configuration()
+		responseData = {'configuration': conf}
+		response = getJson(responseData)
+	else:
+		response = method_not_allowed()
+
+	return response

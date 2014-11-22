@@ -5,7 +5,7 @@ arduino = serial.Serial("/dev/ttyACM0", 9600);
 car = arduino.read()
 print(car)
  
-to_send = b"testingoutofbufferlimits"
+to_send = bytes([2, 2, 50])
 
 print("Sending " + str(to_send))
 
