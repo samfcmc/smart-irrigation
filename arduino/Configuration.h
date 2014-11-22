@@ -51,6 +51,18 @@ public:
 	//void addObserver(Thread*);
 
 	uint8_t processMessage(char *message);
+
+	inline uint8_t getCurrentHumidity() {
+		return this->parameters[CURRENT_HUMIDITY];
+	}
+
+	inline uint8_t getHumidityMin() {
+		return this->parameters[HUMIDITY_MIN];
+	}
+
+	inline uint8_t getHumidityMax() {
+		return this->parameters[HUMIDITY_MAX];
+	}
 };
 
 #endif

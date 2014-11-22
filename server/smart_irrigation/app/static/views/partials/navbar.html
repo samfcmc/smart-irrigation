@@ -37,6 +37,12 @@ ng-init="initUser()">
               Store
             </a>
         </li>
+        <li 
+        ng-class="{'active': activeState('simul')}">
+            <a ui-sref="simul">
+              Simulation
+            </a>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>

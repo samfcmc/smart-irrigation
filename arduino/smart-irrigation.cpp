@@ -3,6 +3,7 @@
 #include <ThreadController.h>
 #include "CommThread.h"
 #include "Configuration.h"
+#include "IrrigationThread.h"
 
 // System-relevant (low level) data
 int LED_PIN = 13;
@@ -11,6 +12,7 @@ int TIMER_INTERVAL = 1000;
 // Threads
 CommThread *commThread = CommThread::getInstance();
 Configuration configuration;
+IrrigationThread irrigationThread(&configuration, LED_PIN);
 ThreadController threadController;
 
 //Buffer
@@ -29,18 +31,14 @@ void onMessageReceived(char *message, int size) {
 }
 
 void setup() {
-  	// Init pins
-	pinMode(LED_PIN, OUTPUT);
-	
 	// Init threads
 	commThread->init();
 	commThread->setOnMessageReceived(onMessageReceived);
 
 	// Add Threads to Controller
 	threadController.add(commThread);
+	threadController.add(&irrigationThread);
 }
-
-
 
 void loop() {
   	threadController.run();
