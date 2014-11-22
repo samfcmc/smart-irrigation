@@ -54,7 +54,7 @@ void CommThread::run()
 				//Stop receiving a message
 				this->state = STATE_IDLE;
 				this->messageAvailable = true;
-				this->inBuffer[this->currentIndex - 1] = '\0';
+				//this->inBuffer[this->currentIndex - 1] = '\0';
 				if(this->onMessageReceived) {
 					this->onMessageReceived(this->inBuffer, this->currentIndex);
 				}

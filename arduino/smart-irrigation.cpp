@@ -1,12 +1,8 @@
 #include <Arduino.h>
 #include <Thread.h>
 #include <ThreadController.h>
-#include "BlinkLedThread.h"
 #include "CommThread.h"
-#include "ConfigThread.h"
-
-// Common data
-#include "common.h"
+#include "Configuration.h"
 
 // System-relevant (low level) data
 int LED_PIN = 13;
@@ -14,22 +10,22 @@ int TIMER_INTERVAL = 1000;
 
 // Threads
 CommThread *commThread = CommThread::getInstance();
-ConfigThread configThread;
+Configuration configuration;
 ThreadController threadController;
 
 //Buffer
 char buffer[BUFF_SIZE];
-char test[] = {0};
+char response[] = {0};
 
 /*
  * Testing callbacks
  */
 void onSent(int size) {
-	digitalWrite(LED_PIN, HIGH);
 }
 
 void onMessageReceived(char *message, int size) {
-	commThread->sendMessage(test, 1, onSent);
+	response[0] = configuration.processMessage(message);
+	commThread->sendMessage(response, 1, onSent);
 }
 
 void setup() {
