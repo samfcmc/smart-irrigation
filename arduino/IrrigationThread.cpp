@@ -1,7 +1,8 @@
 #include <Arduino.h>
 #include "IrrigationThread.h"
 
-IrrigationThread::IrrigationThread(Configuration *configuration, int pin, int interval): Thread() {
+IrrigationThread::IrrigationThread(Configuration *configuration, int pin, int interval): Thread()
+{
 	this->configuration = configuration;
 	this->watering = false;
 	this->pin = pin;
@@ -9,7 +10,8 @@ IrrigationThread::IrrigationThread(Configuration *configuration, int pin, int in
 	pinMode(pin, OUTPUT);
 }
 
-void IrrigationThread::run() {
+void IrrigationThread::run()
+{
 	uint8_t currentHumidity = this->configuration->getCurrentHumidity();
 	uint8_t humidityMin = this->configuration->getHumidityMin();
 	uint8_t humidityMax = this->configuration->getHumidityMax();
@@ -27,7 +29,8 @@ void IrrigationThread::run() {
 
 }
 
-void IrrigationThread::setWateringState(bool state) {
+void IrrigationThread::setWateringState(bool state)
+{
 	this->watering = state;
 	digitalWrite(this->pin, state);
 }
