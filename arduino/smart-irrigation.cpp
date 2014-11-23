@@ -12,7 +12,7 @@ int TIMER_INTERVAL = 1000;
 // Threads
 CommThread *commThread = CommThread::getInstance();
 Configuration configuration;
-IrrigationThread irrigationThread(&configuration, LED_PIN);
+IrrigationThread irrigationThread(&configuration, 2);
 ThreadController threadController;
 
 //Buffer
@@ -31,6 +31,8 @@ void onMessageReceived(char *message, int size) {
 }
 
 void setup() {
+        pinMode(LED_PIN, OUTPUT);
+        
 	// Init threads
 	commThread->init();
 	commThread->setOnMessageReceived(onMessageReceived);

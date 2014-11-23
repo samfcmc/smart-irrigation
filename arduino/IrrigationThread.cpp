@@ -1,20 +1,23 @@
 #include <Arduino.h>
 #include "IrrigationThread.h"
 
-IrrigationThread::IrrigationThread(Configuration *configuration, int pin, int interval): Thread()
+IrrigationThread::IrrigationThread(Configuration *configuration, int _coilValvePin, int interval):
+  Thread(), _humiditySensor(A1)
 {
 	this->configuration = configuration;
 	this->watering = false;
-	this->pin = pin;
+	this->_coilValvePin = _coilValvePin;
 	setInterval(interval);
-	pinMode(pin, OUTPUT);
+	pinMode(_coilValvePin, OUTPUT);
 }
 
 void IrrigationThread::run()
 {
-	uint8_t currentHumidity = this->configuration->getCurrentHumidity();
-	uint8_t humidityMin = this->configuration->getHumidityMin();
-	uint8_t humidityMax = this->configuration->getHumidityMax();
+	int currentHumidity = this->getCurrentHumidity();
+	int humidityMin = this->configuration->getHumidityMin();
+	int humidityMax = this->configuration->getHumidityMax();
+        
+        Serial.print(F("H:"));Serial.print(currentHumidity, DEC);Serial.print(F(";m:"));Serial.print(humidityMin, DEC);Serial.print(F(";M:"));Serial.println(humidityMax, DEC);
 
 	if(!this->watering) {
 		if(currentHumidity < humidityMin) {
@@ -22,7 +25,7 @@ void IrrigationThread::run()
 		}
 	}
 	else {
-		if(currentHumidity > humidityMin) {
+		if(currentHumidity > humidityMax) { 
 			this->setWateringState(false);
 		}
 	}
@@ -32,5 +35,5 @@ void IrrigationThread::run()
 void IrrigationThread::setWateringState(bool state)
 {
 	this->watering = state;
-	digitalWrite(this->pin, state);
+	digitalWrite(_coilValvePin, state ? HIGH : LOW);
 }

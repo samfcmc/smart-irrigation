@@ -26,7 +26,7 @@ enum Parameters {
 
 class Configuration {
 private:
-	uint8_t parameters[PARAM_COUNT];
+	int parameters[PARAM_COUNT];
 
 public:
 
@@ -34,15 +34,15 @@ public:
 
 	uint8_t processMessage(char *message);
 
-	inline uint8_t getCurrentHumidity() {
+	inline int getCurrentHumidity() {
 		return this->parameters[CURRENT_HUMIDITY];
 	}
 
-	inline uint8_t getHumidityMin() {
+	inline int getHumidityMin() {
 		return this->parameters[HUMIDITY_MIN];
 	}
 
-	inline uint8_t getHumidityMax() {
+	inline int getHumidityMax() {
 		return this->parameters[HUMIDITY_MAX];
 	}
 };
