@@ -25,7 +25,7 @@ public:
 
 	void setWateringState(bool state);
         
-        inline int getCurrentHumidity() { return _humiditySensor.readSensor(); }
+    inline int getCurrentHumidity() { return this->configuration->getCurrentHumidity(); }
 };
 
 #endif

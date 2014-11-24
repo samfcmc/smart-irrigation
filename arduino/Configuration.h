@@ -45,6 +45,10 @@ public:
 	inline int getHumidityMax() {
 		return this->parameters[HUMIDITY_MAX];
 	}
+
+	inline void setHumidity(int value) {
+		this->parameters[CURRENT_HUMIDITY] = value;
+	}
 };
 
 #endif
