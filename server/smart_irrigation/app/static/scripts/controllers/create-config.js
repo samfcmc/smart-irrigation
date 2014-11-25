@@ -8,7 +8,7 @@ App.controller('CreateConfigCtrl', ['$scope', '$controller',
 
 		$controller('ConfigCtrl', {$scope: $scope});
 
-		
+		$scope.configuration.owner = true;
 
 		$scope.saveChanges = function() {
 			ConfigResource.create($scope.configuration,

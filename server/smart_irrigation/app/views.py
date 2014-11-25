@@ -8,8 +8,12 @@ import json
 
 from . import arduino
 from . import irrigation_control
-arduino = arduino.Arduino("/dev/ttyACM0")
-control = irrigation_control.IrrigationControl(arduino)
+try:
+	arduino = arduino.Arduino("/dev/ttyACM0")
+	control = irrigation_control.IrrigationControl(arduino)
+except:
+	print('Cannot connect to arduino')
+
 
 # Return json
 def getJson(response):
@@ -29,7 +33,10 @@ def index(request):
 
 def user_logout(request):
 	logout(request)
-	control.disconnect()
+	try:
+		control.disconnect()
+	except:
+		print('Not connected to arduino')
 	return redirectToIndex()
 
 def user_login(request):
