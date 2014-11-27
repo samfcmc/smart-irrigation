@@ -29,7 +29,7 @@ uint8_t Configuration::processMessage(char *message)
     case MESS_GET:
       return this->parameters[parameter];
     case MESS_SET:
-      uint8_t value = this->parameters[MESS_FIELD_VALUE];
+      uint8_t value = message[MESS_FIELD_VALUE];
       this->parameters[parameter] = value;
 
       return value;
