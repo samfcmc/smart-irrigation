@@ -26,7 +26,7 @@ enum Parameters {
 
 class Configuration {
 private:
-	int parameters[PARAM_COUNT];
+	uint8_t parameters[PARAM_COUNT];
 
 public:
 

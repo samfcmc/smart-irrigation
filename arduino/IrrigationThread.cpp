@@ -13,7 +13,7 @@ IrrigationThread::IrrigationThread(Configuration *configuration, int _coilValveP
 
 void IrrigationThread::run()
 {
-	this->configuration->setHumidity(_humiditySensor.readSensor());
+	//this->configuration->setHumidity(_humiditySensor.readSensor());
 
 	int currentHumidity = this->configuration->getCurrentHumidity();
 	int humidityMin = this->configuration->getHumidityMin();

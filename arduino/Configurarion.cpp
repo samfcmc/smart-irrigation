@@ -23,13 +23,13 @@ Configuration::Configuration() {
 uint8_t Configuration::processMessage(char *message)
 {
   uint8_t opcode = message[MESS_FIELD_OPC];
-  int parameter = serial2arduino(*(int*)&message[MESS_FIELD_PARAM]);
-
+  //int parameter = serial2arduino(*(int*)&message[MESS_FIELD_PARAM]);
+  uint8_t parameter = message[MESS_FIELD_PARAM];
   switch (opcode) {
     case MESS_GET:
       return this->parameters[parameter];
     case MESS_SET:
-      int value = this->parameters[MESS_FIELD_VALUE];
+      uint8_t value = this->parameters[MESS_FIELD_VALUE];
       this->parameters[parameter] = value;
 
       return value;
