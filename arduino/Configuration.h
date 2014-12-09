@@ -37,15 +37,19 @@ public:
 	inline uint8_t getCurrentHumidity() {
 		return this->parameters[CURRENT_HUMIDITY];
 	}
-    inline void setCurrentHumidity(uint8_t value) {
-        this->parameters[CURRENT_HUMIDITY] = value;
-    }
+	inline void setCurrentHumidity(uint8_t value) {
+		this->parameters[CURRENT_HUMIDITY] = value;
+	}
 
 	inline uint8_t getHumidityMin() {
 		return this->parameters[HUMIDITY_MIN];
 	}
 	inline uint8_t getHumidityMax() {
 		return this->parameters[HUMIDITY_MAX];
+	}
+	
+	inline void setCurrentTemperature(uint8_t value) {
+	  	this->parameters[CURRENT_TEMPERATURE] = value;
 	}
 };
 

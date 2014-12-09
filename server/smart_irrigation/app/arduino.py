@@ -4,7 +4,10 @@ class Arduino(object):
 
 	def __init__(self, serial_port, rate = 9600):
 		self.port = serial.Serial(serial_port, rate)
-		self.port.read()
+		#self.port.flush()
+		print("Estou aqui!")
+		#self.port.read()
+		print("Estou ali!")
 
 	def read(self):
 		return self.port.read()

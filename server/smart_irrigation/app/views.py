@@ -9,8 +9,11 @@ import json
 from . import arduino
 from . import irrigation_control
 try:
+	print("batuta")
 	arduino = arduino.Arduino("/dev/ttyACM0")
+	print("batota")
 	control = irrigation_control.IrrigationControl(arduino)
+	print("batata")
 except:
 	print('Cannot connect to arduino')
 

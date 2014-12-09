@@ -45,5 +45,9 @@ class HumiditySensor : public AnalogSensor {
 public:
         HumiditySensor(int pin) : AnalogSensor(pin, 100.0/1024.0) {  }
 };
+class TemperatureSensor : public AnalogSensor {
+public:
+        TemperatureSensor(int pin) : AnalogSensor(pin, 100.0/1024.0) {  }
+};
 
 #endif

@@ -15,8 +15,9 @@ private:
 	Configuration *configuration;
 	bool watering;
 	int _coilValvePin;
-        
-    HumiditySensor _humiditySensor;
+
+	HumiditySensor     _humiditySensor;
+	TemperatureSensor  _temperatureSensor;
 
 public:
 	IrrigationThread(Configuration *configuration, int pin = DEFAULT_PIN, int interval = DEFAULT_INTERVAL);
