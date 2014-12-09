@@ -34,20 +34,18 @@ public:
 
 	uint8_t processMessage(char *message);
 
-	inline int getCurrentHumidity() {
+	inline uint8_t getCurrentHumidity() {
 		return this->parameters[CURRENT_HUMIDITY];
 	}
+    inline void setCurrentHumidity(uint8_t value) {
+        this->parameters[CURRENT_HUMIDITY] = value;
+    }
 
-	inline int getHumidityMin() {
+	inline uint8_t getHumidityMin() {
 		return this->parameters[HUMIDITY_MIN];
 	}
-
-	inline int getHumidityMax() {
+	inline uint8_t getHumidityMax() {
 		return this->parameters[HUMIDITY_MAX];
-	}
-
-	inline void setHumidity(int value) {
-		this->parameters[CURRENT_HUMIDITY] = value;
 	}
 };
 

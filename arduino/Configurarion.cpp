@@ -28,10 +28,12 @@ uint8_t Configuration::processMessage(char *message)
   switch (opcode) {
     case MESS_GET:
       return this->parameters[parameter];
+      
     case MESS_SET:
       uint8_t value = message[MESS_FIELD_VALUE];
       this->parameters[parameter] = value;
-
       return value;
   }
+  
+  return 0;
 }

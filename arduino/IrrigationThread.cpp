@@ -13,13 +13,13 @@ IrrigationThread::IrrigationThread(Configuration *configuration, int _coilValveP
 
 void IrrigationThread::run()
 {
-	//this->configuration->setHumidity(_humiditySensor.readSensor());
+	this->configuration->setCurrentHumidity(_humiditySensor.readSensor());
 
 	int currentHumidity = this->configuration->getCurrentHumidity();
 	int humidityMin = this->configuration->getHumidityMin();
 	int humidityMax = this->configuration->getHumidityMax();
         
-        //Serial.print(F("H:"));Serial.print(currentHumidity, DEC);Serial.print(F(";m:"));Serial.print(humidityMin, DEC);Serial.print(F(";M:"));Serial.println(humidityMax, DEC);
+    //Serial.print(F("H:"));Serial.print(currentHumidity, DEC);Serial.print(F(";m:"));Serial.print(humidityMin, DEC);Serial.print(F(";M:"));Serial.println(humidityMax, DEC);
 
 	if(!this->watering) {
 		if(currentHumidity < humidityMin) {

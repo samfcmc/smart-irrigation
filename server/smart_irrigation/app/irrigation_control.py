@@ -18,6 +18,8 @@ class IrrigationControl(object):
 	def __init__(self, arduino):
 		self.arduino = arduino
 
+
+
 	def get_current_temperature_message(self):
 		return bytes([GET, CURRENT_TEMPERATURE])
 
@@ -54,6 +56,8 @@ class IrrigationControl(object):
 	def set_humidity_max_message(self, value):
 		return bytes([SET, HUMIDITY_MAX, value])
 
+
+
 	def get_state(self, temperature, humidity, configuration):
 		state = {'temperature': 'GOOD', 'watering': False}
 		# Check temperature
@@ -63,25 +67,27 @@ class IrrigationControl(object):
 			state['temperature'] = 'LOW'
 		elif temperature > temp_max:
 			state['temperature'] = 'HIGH'
-
 		# Check humidity
 		humidity_min = configuration['humidity']['min']
 		if humidity < humidity_min:
 			state['watering'] = True
-
 		return state
 
 	def get_status(self):
+        # Getting the conditions of the plant
 		self.arduino.write(self.get_current_temperature_message())
 		temperatureByte = self.arduino.read()
 		temperature = self.arduino.byteToInteger(temperatureByte)
 		self.arduino.write(self.get_current_humidity_message())
 		humidityByte = self.arduino.read()
 		humidity = self.arduino.byteToInteger(humidityByte)
+		# Getting the configuration that is inside the Arduino
 		configuration = self.get_current_configuration()
 		state = self.get_state(temperature, humidity, configuration)
+		# Building data object to appear if the web app
 		status = {'temperature': temperature, 'humidity': humidity, 'configuration': configuration, 'state': state}
 		return status
+
 
 	def sync(self, configurations, days):
 		for configuration in configurations:

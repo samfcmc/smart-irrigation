@@ -16,7 +16,7 @@ private:
 	bool watering;
 	int _coilValvePin;
         
-        HumiditySensor _humiditySensor;
+    HumiditySensor _humiditySensor;
 
 public:
 	IrrigationThread(Configuration *configuration, int pin = DEFAULT_PIN, int interval = DEFAULT_INTERVAL);
@@ -24,8 +24,6 @@ public:
 	void run();
 
 	void setWateringState(bool state);
-        
-    inline int getCurrentHumidity() { return this->configuration->getCurrentHumidity(); }
 };
 
 #endif
