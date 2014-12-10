@@ -18,8 +18,6 @@ class IrrigationControl(object):
 	def __init__(self, arduino):
 		self.arduino = arduino
 
-
-
 	def get_current_temperature_message(self):
 		return bytes([GET, CURRENT_TEMPERATURE])
 
@@ -55,8 +53,6 @@ class IrrigationControl(object):
 
 	def set_humidity_max_message(self, value):
 		return bytes([SET, HUMIDITY_MAX, value])
-
-
 
 	def get_state(self, temperature, humidity, configuration):
 		state = {'temperature': 'GOOD', 'watering': False}
@@ -141,3 +137,4 @@ class IrrigationControl(object):
 		result = {'temperature': {'min': temp_min, 'max': temp_max}, 'humidity': {'min': hum_min, 'max': hum_max}}
 
 		return result
+

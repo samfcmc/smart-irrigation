@@ -12,10 +12,13 @@ try:
 	print("batuta")
 	arduino = arduino.Arduino("/dev/ttyACM0")
 	print("batota")
-	control = irrigation_control.IrrigationControl(arduino)
+	
 	print("batata")
 except:
 	print('Cannot connect to arduino')
+	arduino = arduino.FakeArduino()
+
+control = irrigation_control.IrrigationControl(arduino)	
 
 
 # Return json
