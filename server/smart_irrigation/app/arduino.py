@@ -5,9 +5,7 @@ class Arduino(object):
 	def __init__(self, serial_port, rate = 9600):
 		self.port = serial.Serial(serial_port, rate)
 		#self.port.flush()
-		print("Estou aqui!")
 		#self.port.read()
-		print("Estou ali!")
 
 	def read(self):
 		return self.port.read()
@@ -44,7 +42,6 @@ class FakeArduino(object):
 	def write(self, byteArray):
 		prop = byteArray[1]
 		if self.is_set_message(byteArray):
-			print('is set message')
 			self.properties[prop] = byteArray[2]
 
 		self.last_property = prop
@@ -53,7 +50,6 @@ class FakeArduino(object):
 		return self.read()
 
 	def byteToInteger(self, byte):
-		print(type(byte))
 		value = int.from_bytes(byte, byteorder="little")
 		return value
 
